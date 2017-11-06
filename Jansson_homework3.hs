@@ -7,20 +7,18 @@ import RPNAST
 import Data.List
 
 -- Function prob1
--- @type
--- @param  String
--- @output PExp
--- @description:
+-- @type         String -> Exp
+-- @param        String
+-- @output       PExp
+-- @description: Parses a String and returns a PExp
 prob1 :: String -> PExp
-prob1 expression = foldl foldingFunction [] (words expression)
+prob1 expression = map mapFxn (words expression)
   where
-    foldingFunction (x:xs) "*" = Mul:xs
-    foldingFunction (x:xs) "+" = Plus:xs
-    foldingFunction (x:xs) "-" = Minus:xs
-    foldingFunction (x:xs) "/" = IntDiv:xs
-    foldingFunction xs numberString = Val num:xs
-      where
-        num = read numberString::Int
+    mapFxn "*" = Mul
+    mapFxn "+" = Plus
+    mapFxn "-" = Minus
+    mapFxn "/" = IntDiv
+    mapFxn x   = Val (read x::Int)
 
 prob2 :: a
 prob2 = undefined
