@@ -11,6 +11,7 @@ import Data.List
 -- @param        String
 -- @output       PExp
 -- @description: Parses a String and returns a PExp
+-- Used example code found in Learn You a Haskell (http://learnyouahaskell.com/functionally-solving-problems#reverse-polish-notation-calculator)
 prob1 :: String -> PExp
 prob1 expression = map mapFxn (words expression)
   where
