@@ -5,7 +5,7 @@ module Homework3 where
 -- import Test.Hspec
 import RPNAST
 import Data.List
-
+-- import Control.Exception (evaluate)
 -- Function prob1
 -- @type         String -> Exp
 -- @param        String
