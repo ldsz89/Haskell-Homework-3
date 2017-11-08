@@ -38,7 +38,7 @@ prob2 expression = head (foldl foldFxn [] expression)
     foldFxn (x:xs) (Val n) = n:xs
     foldFxn n s = [-1]
 
-prob3 :: a
+prob3 :: PExp -> RPNResult
 prob3 = undefined
 
 prob4 :: a
