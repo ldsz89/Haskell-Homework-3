@@ -6,6 +6,7 @@ module Homework3 where
 import RPNAST
 import Data.List
 -- import Control.Exception (evaluate)
+
 -- Function prob1
 -- @type         String -> Exp
 -- @param        String
@@ -13,7 +14,8 @@ import Data.List
 -- @description: Parses a String and returns a PExp
 -- Used example code found in Learn You a Haskell (http://learnyouahaskell.com/functionally-solving-problems#reverse-polish-notation-calculator)
 prob1 :: String -> PExp
-prob1 expression = map mapFxn (words expression)
+-- prob1 expression = map mapFxn (words expression)
+prob1 = map mapFxn . words
   where
     mapFxn "*" = Mul
     mapFxn "+" = Plus
@@ -21,8 +23,20 @@ prob1 expression = map mapFxn (words expression)
     mapFxn "/" = IntDiv
     mapFxn x   = Val (read x::Int)
 
-prob2 :: a
-prob2 = undefined
+-- Function prob2
+-- @type        PExp -> Int
+-- @param       PExp
+-- @output      Int
+-- @description Evaluates an RPN expression
+prob2 :: PExp -> Int
+prob2 expression = head (foldl foldFxn [] expression)
+  where
+    foldFxn (x:y:ys) Mul    = (x * y):ys
+    foldFxn (x:y:ys) Plus   = (x + y):ys
+    foldFxn (x:y:ys) Minus  = (x - y):ys
+    foldFxn (x:y:ys) IntDiv = (x `div` y):ys
+    foldFxn (x:xs) (Val n) = n:xs
+    foldFxn n s = [-1]
 
 prob3 :: a
 prob3 = undefined
