@@ -48,6 +48,25 @@ prob4 :: a
 prob4 = undefined
 
 -- Write your Hspec Tests below
+test_prob1::IO ()
+test_prob1 = hspec $ do
+  describe "" $ do
+    context "1" $ do
+      it "Tests Val Int Case" $ do
+        prob1 "1" `shouldBe` [Val 1]
+    context "1, 5, Plus" $ do
+      it "Tests Plus Case" $ do
+        prob1 "1 5 +" `shouldBe` [Val 1, Val 5, Plus]
+    context "1, 5, Minus" $ do
+      it "Tests Minus Case" $ do
+        prob1 "1 5 -" `shouldBe` [Val 1, Val 5, Minus]
+    context "1, 5, Mul" $ do
+      it "Tests Mul Case" $ do
+        prob1 "1 5 *" `shouldBe` [Val 1, Val 5, Mul]
+    context "1, 5, IntDiv" $ do
+      it "Tests IntDiv Case" $ do
+        prob1 "1 5 /" `shouldBe` [Val 1, Val 5, IntDiv]
+
 test_prob2::IO ()
 test_prob2 = hspec $ do
   describe "" $ do
