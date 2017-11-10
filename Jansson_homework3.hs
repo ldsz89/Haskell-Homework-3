@@ -42,7 +42,16 @@ prob2 expression = prob2' expression []
 
 
 prob3 :: PExp -> RPNResult
-prob3 = undefined
+prob3 expression = prob3' expression []
+  where
+    prob3'(Plus:xs)   (x:y:ys)  = prob3' xs ((y+x):ys)
+    prob3'(Minus:xs)  (x:y:ys)  = prob3' xs ((y-x):ys)
+    prob3'(Mul:xs)    (x:y:ys)  = prob3' xs ((y*x):ys)
+    prob3' []         [x]       = Success x
+    prob3'(IntDiv:xs) (0:y:ys)  = Failure DivByZero
+    prob3'(IntDiv:xs) (x:y:ys)  = prob3' xs ((y `div` x):ys)
+    prob3'(Val i:xs)  ans       = prob3' xs (i:ans)
+    prob3' _          _         = Failure BadSyntax
 
 prob4 :: a
 prob4 = undefined
@@ -88,3 +97,25 @@ test_prob2 = hspec $ do
     context "5, Mult, IntDiv" $ do
       it "Tests Bad Syntax" $ do
         evaluate (prob2 [Val 5, Mul, IntDiv]) `shouldThrow` anyException
+
+test_prob3::IO ()
+test_prob3 = hspec $ do
+  describe "" $ do
+    context "1, 5, Plus" $ do
+      it "Tests Plus Case" $ do
+        prob3 [Val 1, Val 5, Plus] `shouldBe` (Success 6)
+    context "1, 5, Minus" $ do
+      it "Tests Minus Case" $ do
+        prob3 [Val 1, Val 5, Minus] `shouldBe` (Success (-4))
+    context "1, 5, Mul" $ do
+      it "Tests Mult Case" $ do
+        prob3 [Val 1, Val 5, Mul] `shouldBe` (Success 5)
+    context "5, 20, IntDiv" $ do
+      it "Tests Div Case" $ do
+        prob3 [Val 20, Val 5, IntDiv] `shouldBe` (Success 4)
+    -- context "5, 0, IntDiv" $ do
+    --   it "Tests Div by Zero" $ do
+    --     evaluate (prob2 [Val 5, Val 0, IntDiv]) `shouldBe` (Failure DivByZero)
+    -- context "5, Mult, IntDiv" $ do
+    --   it "Tests Bad Syntax" $ do
+    --     evaluate (prob2 [Val 5, Mul, IntDiv]) `shouldBe` (Failure BadSyntax)
