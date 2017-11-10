@@ -47,10 +47,10 @@ prob3 expression = prob3' expression []
     prob3'(Plus:xs)   (x:y:ys)  = prob3' xs ((y+x):ys)
     prob3'(Minus:xs)  (x:y:ys)  = prob3' xs ((y-x):ys)
     prob3'(Mul:xs)    (x:y:ys)  = prob3' xs ((y*x):ys)
-    prob3' []         [x]       = Success x
     prob3'(IntDiv:xs) (0:y:ys)  = Failure DivByZero
     prob3'(IntDiv:xs) (x:y:ys)  = prob3' xs ((y `div` x):ys)
     prob3'(Val i:xs)  ans       = prob3' xs (i:ans)
+    prob3' []         [x]       = Success x
     prob3' _          _         = Failure BadSyntax
 
 prob4 :: a
