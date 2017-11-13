@@ -4,7 +4,6 @@ module Homework3 where
 
 import Test.Hspec
 import RPNAST
-import Data.List
 import Control.Exception (evaluate)
 
 -- Function prob1
@@ -137,9 +136,31 @@ test_prob3 = hspec $ do
     context "5, 20, IntDiv" $ do
       it "Tests Div Case" $ do
         prob3 [Val 20, Val 5, IntDiv] `shouldBe` (Success 4)
-    -- context "5, 0, IntDiv" $ do
-    --   it "Tests Div by Zero" $ do
-    --     evaluate (prob2 [Val 5, Val 0, IntDiv]) `shouldBe` (Failure DivByZero)
-    -- context "5, Mult, IntDiv" $ do
-    --   it "Tests Bad Syntax" $ do
-    --     evaluate (prob2 [Val 5, Mul, IntDiv]) `shouldBe` (Failure BadSyntax)
+    context "5, 0, IntDiv" $ do
+      it "Tests Div by Zero" $ do
+        prob3 [Val 5, Val 0, IntDiv] `shouldBe` (Failure DivByZero)
+    context "5, Mult, IntDiv" $ do
+      it "Tests Bad Syntax" $ do
+        prob3 [Val 5, Mul, IntDiv] `shouldBe` (Failure BadSyntax)
+
+test_prob4::IO ()
+test_prob4 = hspec $ do
+  describe "" $ do
+    context "1, 5, Plus" $ do
+      it "Tests Plus Case" $ do
+        prob4 [Val 1, Val 5, Plus] `shouldBe` (Success "(1 + 5)")
+    context "5, 4, Minus" $ do
+      it "Tests Minus Case" $ do
+        prob4 [Val 5, Val 4, Minus] `shouldBe` (Success "(5 - 4)")
+    context "5, 4, Mul" $ do
+      it "Tests Mul Case" $ do
+        prob4 [Val 5, Val 4, Mul] `shouldBe` (Success "(5 * 4)")
+    context "10, 5, IntDiv" $ do
+      it "Tests IntDiv Case" $ do
+        prob4 [Val 5, Val 4, IntDiv] `shouldBe` (Success "(5 / 4)")
+    context "1, 0, IntDiv" $ do
+      it "Tests Div By Zero Case" $ do
+        prob4 [Val 1, Val 0, IntDiv] `shouldBe` (Failure "Div by Zero")
+    context "Plus" $ do
+      it "Tests Bad Syntax Case" $ do
+        prob4 [Plus] `shouldBe` (Failure "Bad Syntax")
