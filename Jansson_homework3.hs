@@ -8,7 +8,7 @@ import Data.List
 import Control.Exception (evaluate)
 
 -- Function prob1
--- @type         String -> Exp
+-- @type         String -> PExp
 -- @param        String
 -- @output       PExp
 -- @description: Parses a String and returns a PExp
@@ -40,7 +40,11 @@ prob2 expression = prob2' expression []
     prob2'[]          [x]       = x
     prob2' _          _         = error "Bad Syntax"
 
-
+-- Function prob3
+-- @type        PExp -> RPNResult
+-- @param       PExp
+-- @output      RPNResult
+-- @description Refactor the evaluator by returning an RPNResult
 prob3 :: PExp -> RPNResult
 prob3 expression = prob3' expression []
   where
@@ -53,7 +57,6 @@ prob3 expression = prob3' expression []
     prob3' []         [x]       = Success x
     prob3' _          _         = Failure BadSyntax
 
-prob4 :: a
 prob4 = undefined
 
 -- Write your Hspec Tests below
