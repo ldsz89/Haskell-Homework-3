@@ -13,7 +13,6 @@ import Control.Exception (evaluate)
 -- @description: Parses a String and returns a PExp
 -- Used example code found in Learn You a Haskell (http://learnyouahaskell.com/functionally-solving-problems#reverse-polish-notation-calculator)
 prob1 :: String -> PExp
--- prob1 expression = map mapFxn (words expression)
 prob1 = map mapFxn . words
   where
     mapFxn "*" = Mul
@@ -164,3 +163,12 @@ test_prob4 = hspec $ do
     context "Plus" $ do
       it "Tests Bad Syntax Case" $ do
         prob4 [Plus] `shouldBe` (Failure "Bad Syntax")
+
+test_probs::IO ()
+test_probs  = do
+    putStrLn "-------- All Problem Results --------"
+    test_prob1
+    test_prob2
+    test_prob3
+    test_prob4
+    putStrLn "-------------------------------------"
