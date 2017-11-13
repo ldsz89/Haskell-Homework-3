@@ -57,7 +57,28 @@ prob3 expression = prob3' expression []
     prob3' []         [x]       = Success x
     prob3' _          _         = Failure BadSyntax
 
-prob4 = undefined
+-- Function prob4
+-- @type        PExp -> Result String String
+-- @param       PExp
+-- @type        Result String String
+-- @description Translate RPN to infix notation
+prob4 :: PExp -> Result String String
+prob4 expression = prob4' expression [] []
+  where
+    prob4'(Plus:xs)   (x:y:ys) ans = prob4' xs ys ("(" ++ ans ++ (show y) ++ " + " ++ (show x) ++ ")")
+    prob4'(Plus:xs)   (n:ns)   ans = prob4' xs ns ("(" ++ ans ++ " + " ++ (show n) ++ ")" )
+    prob4'(Minus:xs)  (x:y:ys) ans = prob4' xs ys ("(" ++ ans ++ (show y) ++ " - " ++ (show x) ++ ")")
+    prob4'(Minus:xs)  (n:ns)   ans = prob4' xs ns ("(" ++ ans ++ " - " ++ (show n) ++ ")" )
+    prob4'(Mul:xs)    (x:y:ys) ans = prob4' xs ys ("(" ++ ans ++ (show y) ++ " * " ++ (show x) ++ ")")
+    prob4'(Mul:xs)    (n:ns)   ans = prob4' xs ns ("(" ++ ans ++ " * " ++ (show n) ++ ")" )
+    prob4'(IntDiv:xs) (0:y:ys) ans = Failure "Div by Zero"
+    prob4'(IntDiv:xs) (0:ns)   ans = Failure "Div by Zero"
+    prob4'(IntDiv:xs) (x:y:ys) ans = prob4' xs ys ("(" ++ ans ++ (show y) ++ " / " ++ (show x) ++ ")")
+    prob4'(IntDiv:xs) (n:ns)   ans = prob4' xs ns ("(" ++ ans ++ " / " ++ (show n) ++ ")" )
+    prob4'(Val i:xs)  acc      ans = prob4' xs (i:acc) ans
+    prob4' []         (x:xs)   ans = Success (show x)
+    prob4' []         []       ans = Success ans
+    prob4' _          _        _   = Failure "Bad Syntax"
 
 -- Write your Hspec Tests below
 test_prob1::IO ()
